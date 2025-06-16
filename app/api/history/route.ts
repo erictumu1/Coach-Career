@@ -68,7 +68,8 @@ export async function GET(req: any) {
         .from(userHistoryTable)
         .where(eq(userHistoryTable.recordId, recordId));
 
-      return NextResponse.json(result[0]);
+      const cleaned = JSON.parse(JSON.stringify(result[0]));
+      return NextResponse.json(cleaned);
     } else {
       if (!user || !user.primaryEmailAddress?.emailAddress) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

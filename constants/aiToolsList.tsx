@@ -28,7 +28,7 @@ export const aiToolsList = [
   //   path: "/ai-tools/cover-letter-generator",
   // },
   {
-    name: "Job Match",
+    name: "Job Match Analyzer",
     desc: "Get job compatability score",
     icon: "/job.png",
     button: "Asses Now",

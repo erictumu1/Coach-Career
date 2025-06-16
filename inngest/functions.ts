@@ -121,6 +121,7 @@ You are an advanced AI Resume Analyzer. Your goal is to thoroughly analyze a pla
 }
 \`\`\`
 
+  IMPORTANT: Respond ONLY with the JSON object, no extra text or markdown formatting.
 ## Guidelines:
 - Be critical, not overly generous. Your feedback should mirror the scrutiny of a human recruiter.
 - Don’t guess — if a section is missing, assign a low score and explain why.
@@ -235,6 +236,7 @@ Give a score out of 100 based on how well the resume aligns with the job descrip
 Use the number and severity of mismatches to justify the score. Be objective.
 
 IMPORTANT:
+- Respond ONLY with the JSON object, no extra text or markdown formatting.
 - Only show the project_alignment_analysis if it is relevant, for example if i's a tech role or maybe a relevant engineering role. Otherwise show project alignment as null.
 - Always extract the user name from the resume (top line usually). If unclear, default to "User".
 - Match and adapt based on the job description provided.
@@ -259,14 +261,17 @@ Give extra weight to core requirements in the job description (e.g. mandatory ce
 export const AIRoadmapGeneratorAgent = createAgent({
   name:'AIRoadmapcareeragent',
   description:'Generate career road map deatils in a tree like flow',
-  system:`Generate a React flow tree-structured learning roadmap for user input position/ skills the following format: vertical tree structure with meaningful xly positions to form a flow
-Structure should be similar to roadmap.sh layout
-Steps should be ordered from fundamentals to advanced
-Include branching for dilferent specializations (it applicable)
-Each node must have a title, short description, and learning resource link
-Use unique IDs for all nodes and edges
-Ensure the vertical space between nodes is at least 250 pixels (position.y += 250 each step), and horizontal spacing between branches is at least 300 pixels.
-Response in JSON format:{
+  system:`
+Generate a React flow tree-structured learning roadmap for user input position/ skills in the following format: vertical tree structure with meaningful xy positions to form a flow.
+Structure should be similar to roadmap.sh layout.
+Steps should be ordered from fundamentals to advanced.
+Include branching for different specializations (if applicable).
+Each node must have a title, short description, and learning resource link.
+Use unique IDs for all nodes and edges.
+Ensure vertical space between nodes is at least 250 pixels (position.y += 250 each step), and horizontal spacing between branches is at least 300 pixels.
+Respond ONLY in valid JSON format, exactly like this example:
+
+{
   "roadmapTitle": "React Developer Learning Roadmap",
   "description": "This roadmap guides learners from web development fundamentals to advanced React skills. It includes branches for front-end specialization, state management, and performance optimization. Ideal for aspiring front-end engineers and full-stack developers.",
   "duration": "4-6 months",
@@ -284,7 +289,7 @@ Response in JSON format:{
     {
       "id": "2",
       "type": "turbo",
-      "position": { "x": 0, "y": 150 },
+      "position": { "x": 0, "y": 250 },
       "data": {
         "title": "JavaScript Fundamentals",
         "description": "Understand the core concepts of JavaScript including variables, loops, functions, and objects.",
@@ -294,11 +299,22 @@ Response in JSON format:{
     {
       "id": "3",
       "type": "turbo",
-      "position": { "x": 0, "y": 300 },
+      "position": { "x": 0, "y": 500 },
       "data": {
         "title": "ES6+ Features",
-        "description": "Master modern JavaScript features like arrow functions, destructuring, and
-`,
+        "description": "Master modern JavaScript features like arrow functions, destructuring, and async/await.",
+        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+      }
+    }
+  ],
+  "edges": [
+    { "id": "e1-2", "source": "1", "target": "2" },
+    { "id": "e2-3", "source": "2", "target": "3" }
+  ]
+}
+  IMPORTANT: Respond ONLY with the JSON object, no extra text or markdown formatting.
+`
+,
     model:gemini({
     model:"gemini-1.5-flash",
     apiKey:process.env.GEMINI_API_KEY,

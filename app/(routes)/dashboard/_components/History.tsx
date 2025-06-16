@@ -68,8 +68,8 @@ function History({ showDates = false }: { showDates?: boolean }) {
         return content?.roadmapTitle ?? "AI Roadmap";
       case "AI Career Q&A Chat":
         return content?.[0]?.content ?? "AI Agent Chat";
-      case "Job Match":
-        return content?.job_title ?? "Job Match";
+      case "Job Match Analyzer":
+        return content?.job_title ?? "Job Match Analyzer";
       default:
         return agentType ?? "Unknown Tool";
     }
