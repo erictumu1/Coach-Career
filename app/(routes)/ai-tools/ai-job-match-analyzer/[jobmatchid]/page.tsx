@@ -64,7 +64,7 @@ function JobMatchAnalyzer() {
     <div className="gap-y-10">
       <div className="col-span-2">
         <JobMatchReport matchReport={aiReport} />
-        <p className="text-[14px] text-customTealdark pt-6 -mb-9 md:pt-4 md:mb-0 text-center">
+        <p className="text-[14px] text-customTealdark pt-4 text-center">
           &copy; {year} Created by{" "}
           <span className="text-customTealdark font-bold">Eric Tumu</span>. All
           Rights Reserved.
