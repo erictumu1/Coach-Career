@@ -60,7 +60,6 @@ function JobDescriptionDialog({ openDialog, setOpenDialog }: any) {
           },
         });
         event.target.value = "";
-        setResumeFile(null);
         return;
       }
       setResumeFile(file);
