@@ -13,6 +13,7 @@ import axios from "axios";
 import { File, Loader2Icon, Sparkles } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import toast from "react-hot-toast";
 import { v4 as uuidv4 } from "uuid";
 
 function ResumeUploadDialog({ openResumeUpload, setOpenResumeUpload }: any) {
@@ -21,6 +22,7 @@ function ResumeUploadDialog({ openResumeUpload, setOpenResumeUpload }: any) {
   const router = useRouter();
   const cancelled = useRef(false);
   const { has } = useAuth();
+  const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
   useEffect(() => {
     if (openResumeUpload) {
@@ -40,13 +42,23 @@ function ResumeUploadDialog({ openResumeUpload, setOpenResumeUpload }: any) {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [openResumeUpload, file, loading]);
 
-  const onFileChange = (event: any) => {
+  const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
+      if (file.size > MAX_FILE_SIZE) {
+        toast.error("PDF too large, Max upload size is 5MB.", {
+          style: {
+            background: "#0e545b",
+            color: "#fff",
+          },
+        });
+        event.target.value = "";
+        setFile(undefined);
+        return;
+      }
       setFile(file);
     }
   };
-
   const submitResume = async () => {
     if (!file) return;
 

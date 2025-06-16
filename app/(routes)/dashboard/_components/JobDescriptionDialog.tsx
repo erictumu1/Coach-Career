@@ -13,6 +13,7 @@ import axios from "axios";
 import { File, Loader2Icon, Sparkles } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import toast from "react-hot-toast";
 import { v4 as uuidv4 } from "uuid";
 
 function JobDescriptionDialog({ openDialog, setOpenDialog }: any) {
@@ -22,6 +23,7 @@ function JobDescriptionDialog({ openDialog, setOpenDialog }: any) {
   const router = useRouter();
   const cancelled = useRef(false);
   const { has } = useAuth();
+  const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
   useEffect(() => {
     if (openDialog) {
@@ -49,7 +51,20 @@ function JobDescriptionDialog({ openDialog, setOpenDialog }: any) {
 
   const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (file) setResumeFile(file);
+    if (file) {
+      if (file.size > MAX_FILE_SIZE) {
+        toast.error("PDF too large, Max upload size is 5MB.", {
+          style: {
+            background: "#0e545b",
+            color: "#fff",
+          },
+        });
+        event.target.value = "";
+        setResumeFile(null);
+        return;
+      }
+      setResumeFile(file);
+    }
   };
 
   const submitJobMatch = async () => {

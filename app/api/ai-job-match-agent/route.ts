@@ -4,6 +4,15 @@ import { WebPDFLoader } from "@langchain/community/document_loaders/web/pdf";
 import axios from "axios";
 import { NextRequest, NextResponse } from "next/server";
 
+//Add these two lines to make the app work well with vercel
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
+export const runtime = "nodejs";
+
 function safeJson(obj: any) {
   return JSON.parse(
     JSON.stringify(obj, (key, value) => {
@@ -23,7 +32,6 @@ function safeJson(obj: any) {
     })
   );
 }
-
 export async function POST(req: NextRequest) {
   const FormData = await req.formData();
   const resumeFile: any = FormData.get("resumeFile");
