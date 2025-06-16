@@ -1,4 +1,5 @@
 import { inngest } from "@/inngest/client";
+import { uploadToSupabase } from "@/lib/uploadResumeToSupabase";
 import { currentUser } from "@clerk/nextjs/server";
 import { WebPDFLoader } from "@langchain/community/document_loaders/web/pdf";
 import axios from "axios";
@@ -19,29 +20,29 @@ function safeJson(obj: any) {
 
 export async function POST(req: NextRequest) {
   const formData = await req.formData();
-  const resumeFile: any = formData.get("resumeFile");
-  const recordId = formData.get("recordId");
+  const resumeFormValue = formData.get("resumeFile");
 
+  if (!(resumeFormValue instanceof File)) {
+    return NextResponse.json({ error: "Invalid or missing resume file." }, { status: 400 });
+  }
+  const resumeFile = resumeFormValue;
+  const recordId = formData.get("recordId");
   const user = await currentUser();
 
-  if (!resumeFile) {
-    return NextResponse.json({ error: "Missing required fields." }, { status: 400 });
-  }
+  // Upload to Supabase here and get the public URL
+  const fileUrl = await uploadToSupabase(resumeFile);
 
-
+  // Load PDF text as before
   const loader = new WebPDFLoader(resumeFile);
   const docs = await loader.load();
   const fullPdfText = docs.map(doc => doc.pageContent).join("\n");
 
-  const arrayBuffer = await resumeFile.arrayBuffer();
-  const base64 = Buffer.from(arrayBuffer).toString("base64");
-
+  // Send to Inngest event with file URL, not base64
   const resultIds = await inngest.send({
     name: "AiResumeAgent",
     data: {
       recordId,
-      resumeFile,
-      base64ResumeFile: base64,
+      resumeFileUrl: fileUrl, // pass the URL here
       pdfText: fullPdfText,
       AIAgentType: "/ai-tools/ai-resume-analyzer",
       userEmail: user?.primaryEmailAddress?.emailAddress,

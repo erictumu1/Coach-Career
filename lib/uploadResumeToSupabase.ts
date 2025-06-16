@@ -1,10 +1,16 @@
 import { supabase } from "@/lib/supabase";
 
-export async function uploadToSupabase(fileBase64: string, fileName: string): Promise<string> {
+export async function uploadToSupabase(file: File): Promise<string> {
+  const fileExt = file.name.split(".").pop();
+  const fileName = `${crypto.randomUUID()}.${fileExt}`;
+
+  const arrayBuffer = await file.arrayBuffer();
+  const buffer = Buffer.from(arrayBuffer);
+
   const { data, error } = await supabase.storage
     .from(process.env.SUPABASE_BUCKET_NAME!)
-    .upload(fileName, Buffer.from(fileBase64, 'base64'), {
-      contentType: "application/pdf",
+    .upload(fileName, buffer, {
+      contentType: file.type,
       upsert: true,
     });
 
@@ -16,3 +22,5 @@ export async function uploadToSupabase(fileBase64: string, fileName: string): Pr
 
   return publicUrlData.publicUrl;
 }
+
+

@@ -1,4 +1,5 @@
 import { inngest } from "@/inngest/client";
+import { uploadToSupabase } from "@/lib/uploadResumeToSupabase"; // <- Make sure this exists
 import { currentUser } from "@clerk/nextjs/server";
 import { WebPDFLoader } from "@langchain/community/document_loaders/web/pdf";
 import axios from "axios";
@@ -10,8 +11,7 @@ function safeJson(obj: any) {
       if (typeof value === "undefined") return null;
       if (typeof value === "bigint") return value.toString();
       if (value instanceof Buffer) return "<Buffer>";
-      if (typeof value === "function" || typeof value === "symbol")
-        return undefined;
+      if (typeof value === "function" || typeof value === "symbol") return undefined;
       if (
         value?.constructor?.name &&
         value.constructor.name !== "Object" &&
@@ -25,35 +25,38 @@ function safeJson(obj: any) {
 }
 
 export async function POST(req: NextRequest) {
-  const FormData = await req.formData();
-  const resumeFile: any = FormData.get("resumeFile");
-  const recordId = FormData.get("recordId");
-  const jobDescription = FormData.get("jobDescription");
-  const user = await currentUser();
+  const formData = await req.formData();
+  const resumeFormValue = formData.get("resumeFile");
 
-  if (!resumeFile || !recordId || !jobDescription) {
-    return NextResponse.json(
-      { error: "Missing required fields." },
-      { status: 400 }
-    );
+  if (!(resumeFormValue instanceof File)) {
+    return NextResponse.json({ error: "Invalid or missing resume file." }, { status: 400 });
   }
 
+  const resumeFile = resumeFormValue;
+  const recordId = formData.get("recordId");
+  const jobDescription = formData.get("jobDescription");
+  const user = await currentUser();
+
+  if (!recordId || !jobDescription) {
+    return NextResponse.json({ error: "Missing required fields." }, { status: 400 });
+  }
+
+  // 1. Upload to Supabase and get public file URL
+  const fileUrl = await uploadToSupabase(resumeFile);
+
+  // 2. Load PDF content
   const loader = new WebPDFLoader(resumeFile);
   const docs = await loader.load();
-
   const fullPdfText = docs.map((doc) => doc.pageContent).join("\n");
 
   console.log("Full Resume Text:", fullPdfText);
 
-  const arrayBuffer = await resumeFile.arrayBuffer();
-  const base64 = Buffer.from(arrayBuffer).toString("base64");
-
+  // 3. Trigger Inngest job match agent
   const resultIds = await inngest.send({
     name: "AIJobMatchAgent",
     data: {
       recordId,
-      resumeFile,
-      base64ResumeFile: base64,
+      resumeFileUrl: fileUrl, // updated to use URL
       pdfText: fullPdfText,
       jobDescription,
       AIAgentType: "/ai-tools/ai-job-match-analyzer",
@@ -63,10 +66,7 @@ export async function POST(req: NextRequest) {
 
   const runID = resultIds?.ids[0];
   if (!runID) {
-    return NextResponse.json(
-      { error: "Failed to start job match agent." },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to start job match agent." }, { status: 500 });
   }
 
   let runstatus;
@@ -75,13 +75,14 @@ export async function POST(req: NextRequest) {
     if (runstatus?.data[0]?.status === "Completed") break;
     await new Promise((resolve) => setTimeout(resolve, 500));
   }
+
   const finalOutput = runstatus.data?.[0]?.output;
   console.log("Final Output:", finalOutput);
 
   return NextResponse.json(safeJson(finalOutput));
 }
 
-async function getRuns(runId: string) {
+export async function getRuns(runId: string) {
   const result = await axios.get(
     `${process.env.INNGEST_SERVER_HOST}/v1/events/${runId}/runs`,
     {
@@ -90,6 +91,5 @@ async function getRuns(runId: string) {
       },
     }
   );
-
   return result.data;
 }

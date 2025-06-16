@@ -1,6 +1,5 @@
 import { db } from '@/configs/db';
 import { userHistoryTable } from '@/configs/schema';
-import { uploadToSupabase } from '@/lib/uploadResumeToSupabase';
 import { createAgent } from '@inngest/agent-kit';
 import ImageKit from "imagekit";
 import { gemini } from "inngest";
@@ -358,29 +357,10 @@ var imagekit = new ImageKit({
 
 //Export the Resume Agent
 export const AIResumeAgent = inngest.createFunction(
-  {id: 'AiResumeAgent'},
-  {event:'AiResumeAgent'},
-  async({event,step}) =>{
-    const {recordId,base64ResumeFile,pdfText, AIAgentType, userEmail} = await event.data;
-
-    //Upload file to Cloud
-let uploadFileUrl;
-try {
-  uploadFileUrl = await step.run("uploadPDF", async () => {
-    const fileName = `${Date.now()}.pdf`;
-    return await uploadToSupabase(base64ResumeFile, fileName);
-  });
-} catch (err) {
-  console.error("Supabase upload failed. Falling back to ImageKit...", err);
-
-  // Old ImageKit logic
-  uploadFileUrl = await imagekit.upload({
-    file: base64ResumeFile,
-    fileName: `${Date.now()}.pdf`,
-    isPublished: true,
-  }).then(res => res.url);
-}
-
+  { id: 'AiResumeAgent' },
+  { event: 'AiResumeAgent' },
+  async ({ event, step }) => {
+    const { recordId, resumeFileUrl, pdfText, AIAgentType, userEmail } = event.data
 
     const AIResumeReport = await AIResumeAnalyzerAgent.run(pdfText);
     //@ts-ignore
@@ -407,7 +387,7 @@ try {
         content: parseJson,
         AIAgentType: ' /ai-tools/ai-resume-analyzer',
         userEmail: userEmail,
-        metaData: uploadFileUrl
+        metaData: resumeFileUrl
       });
       console.log(result);
       return parseJson;
@@ -422,17 +402,11 @@ export const AIJobMatchAgent = inngest.createFunction(
   async ({ event, step }) => {
     const {
       recordId,
-      base64ResumeFile,
+      resumeFileUrl, 
       pdfText,
       jobDescription,
       userEmail,
     } = event.data;
-
-const uploadFileUrl = await step.run("uploadPDF", async () => {
-  const fileName = `${Date.now()}.pdf`;
-  const url = await uploadToSupabase(base64ResumeFile, fileName);
-  return url;
-});
 
 const aiInput = `
 ==== RESUME ====
@@ -466,7 +440,7 @@ const aiResponse = await AIJobMatchAnalyzerAgent.run(aiInput);
         content: parsedJson,
         AIAgentType: "/ai-tools/ai-job-match-analyzer",
         userEmail,
-        metaData: uploadFileUrl,
+        metaData: resumeFileUrl,
       });
       return parsedJson;
     });
