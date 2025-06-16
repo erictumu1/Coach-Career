@@ -41,22 +41,19 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Missing required fields." }, { status: 400 });
   }
 
-  // 1. Upload to Supabase and get public file URL
   const fileUrl = await uploadToSupabase(resumeFile);
 
-  // 2. Load PDF content
   const loader = new WebPDFLoader(resumeFile);
   const docs = await loader.load();
   const fullPdfText = docs.map((doc) => doc.pageContent).join("\n");
 
   console.log("Full Resume Text:", fullPdfText);
 
-  // 3. Trigger Inngest job match agent
   const resultIds = await inngest.send({
     name: "AIJobMatchAgent",
     data: {
       recordId,
-      resumeFileUrl: fileUrl, // updated to use URL
+      resumeFileUrl: fileUrl,
       pdfText: fullPdfText,
       jobDescription,
       AIAgentType: "/ai-tools/ai-job-match-analyzer",

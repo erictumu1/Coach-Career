@@ -366,7 +366,6 @@ export const AIResumeAgent = inngest.createFunction(
     //@ts-ignore
     const rawContent = AIResumeReport.output[0]?.content;
 
-    // Using regex to extract JSON block between ```json ... ```
     const jsonMatch =
       rawContent.match(/```json\s*([\s\S]*?)```/) ||
       rawContent.match(/```\s*([\s\S]*?)```/);

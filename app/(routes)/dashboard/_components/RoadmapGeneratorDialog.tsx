@@ -92,6 +92,7 @@ function RoadmapGeneratorDialog({ openDialog, setOpenDialog }: any) {
         onInteractOutside={(e) => {
           e.preventDefault();
         }}
+        className="max-w-[600px] w-[90%] sm:max-w-[90%] md:max-w-[70%] lg:max-w-[600px]"
       >
         <DialogHeader>
           <DialogTitle className="text-customTealdark">

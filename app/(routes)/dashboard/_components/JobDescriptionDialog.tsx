@@ -133,11 +133,11 @@ function JobDescriptionDialog({ openDialog, setOpenDialog }: any) {
         onInteractOutside={(e) => {
           e.preventDefault();
         }}
-        className="custom-dialog"
+        className="custom-dialog max-w-[600px] w-[90%] sm:max-w-[90%] md:max-w-[70%] lg:max-w-[600px]"
       >
         <form onSubmit={handleSubmit}>
           <DialogHeader>
-            <DialogTitle className="text-customTealdark">
+            <DialogTitle className="text-customTealdark text-[17px] md:text-[20px]">
               Upload Resume & Paste Job Description
             </DialogTitle>
             <DialogDescription>

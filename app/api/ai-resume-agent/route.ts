@@ -29,20 +29,17 @@ export async function POST(req: NextRequest) {
   const recordId = formData.get("recordId");
   const user = await currentUser();
 
-  // Upload to Supabase here and get the public URL
   const fileUrl = await uploadToSupabase(resumeFile);
 
-  // Load PDF text as before
   const loader = new WebPDFLoader(resumeFile);
   const docs = await loader.load();
   const fullPdfText = docs.map(doc => doc.pageContent).join("\n");
 
-  // Send to Inngest event with file URL, not base64
   const resultIds = await inngest.send({
     name: "AiResumeAgent",
     data: {
       recordId,
-      resumeFileUrl: fileUrl, // pass the URL here
+      resumeFileUrl: fileUrl,
       pdfText: fullPdfText,
       AIAgentType: "/ai-tools/ai-resume-analyzer",
       userEmail: user?.primaryEmailAddress?.emailAddress,
