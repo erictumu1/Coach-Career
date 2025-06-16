@@ -108,7 +108,7 @@ function AIResumeAnalyzer() {
         <div className="grid lg:grid-cols-5 grid-cols-1 gap-y-10">
           {/* Resume Section */}
           <motion.div
-            className="col-span-3"
+            className="hidden md:block md:col-span-3"
             custom={0.1}
             initial="hidden"
             animate="visible"
@@ -149,7 +149,7 @@ function AIResumeAnalyzer() {
           </motion.div>
         </div>
 
-        <p className="text-[14px] text-customTealdark pt-4 text-center">
+        <p className="text-[14px] text-customTealdark pt-6 -mb-9 md:pt-4 md:mb-0 text-center">
           &copy; {year} Created by{" "}
           <span className="text-customTealdark font-bold">Eric Tumu</span>. All
           Rights Reserved.

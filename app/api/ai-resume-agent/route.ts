@@ -4,6 +4,14 @@ import { WebPDFLoader } from "@langchain/community/document_loaders/web/pdf";
 import axios from "axios";
 import { NextRequest, NextResponse } from "next/server";
 
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
+export const runtime = "nodejs";
+
 function safeJson(obj: any) {
   return JSON.parse(JSON.stringify(obj, (key, value) => {
     if (typeof value === 'undefined') return null;

@@ -261,29 +261,38 @@ Give extra weight to core requirements in the job description (e.g. mandatory ce
 export const AIRoadmapGeneratorAgent = createAgent({
   name:'AIRoadmapcareeragent',
   description:'Generate career road map deatils in a tree like flow',
-  system:`
-Generate a React flow tree-structured learning roadmap for user input position/ skills in the following format: vertical tree structure with meaningful xy positions to form a flow.
-Structure should be similar to roadmap.sh layout.
+system: `
+Generate a React flow tree-structured learning roadmap for the user's input position or skill set in the following format: a vertical tree structure with meaningful xy positions forming a clear learning flow.
+
+The roadmap can be for **any career field or skill area** (not limited to IT), such as healthcare, finance, arts, education, engineering, business, or technology.
+
+Structure the roadmap similar to roadmap.sh layouts.
+
 Steps should be ordered from fundamentals to advanced.
-Include branching for different specializations (if applicable).
+
+Include branching for different specializations if applicable.
+
 Each node must have a title, short description, and learning resource link.
+
 Use unique IDs for all nodes and edges.
-Ensure vertical space between nodes is at least 250 pixels (position.y += 250 each step), and horizontal spacing between branches is at least 300 pixels.
+
+Ensure vertical spacing between nodes is at least 250 pixels (position.y += 250 per step), and horizontal spacing between branches is at least 300 pixels.
+
 Respond ONLY in valid JSON format, exactly like this example:
 
 {
-  "roadmapTitle": "React Developer Learning Roadmap",
-  "description": "This roadmap guides learners from web development fundamentals to advanced React skills. It includes branches for front-end specialization, state management, and performance optimization. Ideal for aspiring front-end engineers and full-stack developers.",
-  "duration": "4-6 months",
+  "roadmapTitle": "Project Management Learning Roadmap",
+  "description": "This roadmap guides learners from foundational project management principles to advanced methodologies and certifications. It includes branches for Agile, Waterfall, and Hybrid approaches. Ideal for aspiring project managers across industries.",
+  "duration": "6-9 months",
   "initialNodes": [
     {
       "id": "1",
       "type": "turbo",
       "position": { "x": 0, "y": 0 },
       "data": {
-        "title": "HTML & CSS",
-        "description": "Learn the structure and styling of web pages using HTML and CSS.",
-        "link": "https://developer.mozilla.org/en-US/docs/Learn/HTML"
+        "title": "Project Management Basics",
+        "description": "Learn the core concepts and terminology in project management.",
+        "link": "https://www.pmi.org/about/learn-about-pmi/what-is-project-management"
       }
     },
     {
@@ -291,9 +300,9 @@ Respond ONLY in valid JSON format, exactly like this example:
       "type": "turbo",
       "position": { "x": 0, "y": 250 },
       "data": {
-        "title": "JavaScript Fundamentals",
-        "description": "Understand the core concepts of JavaScript including variables, loops, functions, and objects.",
-        "link": "https://javascript.info/"
+        "title": "Scheduling and Budgeting",
+        "description": "Understand how to plan timelines and manage budgets effectively.",
+        "link": "https://www.projectmanager.com/project-management-basics"
       }
     },
     {
@@ -301,9 +310,9 @@ Respond ONLY in valid JSON format, exactly like this example:
       "type": "turbo",
       "position": { "x": 0, "y": 500 },
       "data": {
-        "title": "ES6+ Features",
-        "description": "Master modern JavaScript features like arrow functions, destructuring, and async/await.",
-        "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+        "title": "Agile Methodology",
+        "description": "Master Agile principles and frameworks like Scrum and Kanban.",
+        "link": "https://www.agilealliance.org/agile101/"
       }
     }
   ],
@@ -312,7 +321,8 @@ Respond ONLY in valid JSON format, exactly like this example:
     { "id": "e2-3", "source": "2", "target": "3" }
   ]
 }
-  IMPORTANT: Respond ONLY with the JSON object, no extra text or markdown formatting.
+
+IMPORTANT: Respond ONLY with the JSON object, no extra text or markdown formatting.
 `
 ,
     model:gemini({
