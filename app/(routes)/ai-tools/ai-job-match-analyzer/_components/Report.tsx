@@ -67,7 +67,7 @@ export default function JobMatchReport({ matchReport }: any) {
       <motion.div
         className="flex items-center justify-between"
         custom={0}
-        variants={containerVariants}
+        variants={containerVariants as any}
       >
         <h2 className="text-xl font-bold md:text-2xl mb-5 text-customTeal bouncy-underline">
           Job Match Results.
@@ -80,7 +80,7 @@ export default function JobMatchReport({ matchReport }: any) {
           Re-assess
         </Button>
       </motion.div>
-      <motion.div custom={1} variants={containerVariants}>
+      <motion.div custom={1} variants={containerVariants as any}>
         <Card className="bg-gradient-to-br from-customTealdark via-[#197571] to-customTealdark rounded-xl shadow-xl p-6 transition-transform duration-300 ease-in-out hover:-translate-y-1">
           <CardHeader>
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
@@ -105,7 +105,7 @@ export default function JobMatchReport({ matchReport }: any) {
         </Card>
       </motion.div>
 
-      <motion.div custom={2} variants={containerVariants}>
+      <motion.div custom={2} variants={containerVariants as any}>
         <Card className="shadow-lg border-l-4 border-customTeal bg-sidebarColor transition-transform duration-300 ease-in-out hover:-translate-y-1">
           <CardHeader className="flex items-center gap-2">
             <Sparkles className="text-customTeal" />
@@ -124,7 +124,7 @@ export default function JobMatchReport({ matchReport }: any) {
       <motion.div
         className="grid md:grid-cols-2 gap-4"
         custom={3}
-        variants={containerVariants}
+        variants={containerVariants as any}
       >
         <Card className="shadow-md border-l-4 border-green-500 bg-green-80 transition-transform duration-300 ease-in-out hover:-translate-y-1">
           <CardHeader className="flex items-center gap-2">
@@ -173,7 +173,7 @@ export default function JobMatchReport({ matchReport }: any) {
         </Card>
       </motion.div>
 
-      <motion.div custom={4} variants={containerVariants}>
+      <motion.div custom={4} variants={containerVariants as any}>
         <Card className="shadow-md transition-transform duration-300 ease-in-out hover:-translate-y-1 border-l-4 border-customTeal bg-teal-50">
           <CardHeader className="flex items-center gap-2">
             <CheckCircle2 className="text-customTeal" />
@@ -216,7 +216,7 @@ export default function JobMatchReport({ matchReport }: any) {
         </Card>
       </motion.div>
 
-      <motion.div custom={5} variants={containerVariants}>
+      <motion.div custom={5} variants={containerVariants as any}>
         <Card className="shadow-md border-l-4 border-customTeal bg-teal-50 transition-transform duration-300 ease-in-out hover:-translate-y-1">
           <CardHeader className="flex items-center gap-2">
             <Sparkles className="text-customTeal" />
@@ -270,7 +270,7 @@ export default function JobMatchReport({ matchReport }: any) {
       </motion.div>
 
       {project_alignment_analysis !== null && (
-        <motion.div custom={6} variants={containerVariants}>
+        <motion.div custom={6} variants={containerVariants as any}>
           <Card className="shadow-md border-l-4 border-customTeal bg-teal-50 transition-transform duration-300 ease-in-out hover:-translate-y-1">
             <CardHeader className="flex items-center gap-2">
               <CheckCircle2 className="text-customTeal" />
