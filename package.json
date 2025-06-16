@@ -28,6 +28,7 @@
     "dagre": "^0.8.5",
     "dotenv": "^16.4.7",
     "drizzle-orm": "^0.39.1",
+    "firebase": "^11.9.1",
     "framer-motion": "^12.17.0",
     "imagekit": "^6.0.0",
     "lucide-react": "^0.474.0",
