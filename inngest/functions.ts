@@ -1,5 +1,6 @@
 import { db } from '@/configs/db';
 import { userHistoryTable } from '@/configs/schema';
+import { uploadToSupabase } from '@/lib/uploadResumeToSupabase';
 import { createAgent } from '@inngest/agent-kit';
 import ImageKit from "imagekit";
 import { gemini } from "inngest";
@@ -363,14 +364,23 @@ export const AIResumeAgent = inngest.createFunction(
     const {recordId,base64ResumeFile,pdfText, AIAgentType, userEmail} = await event.data;
 
     //Upload file to Cloud
-    const uploadFileUrl = await step.run("uploadImage",async()=>{
-      const imagekitFile = await imagekit.upload({
-        file: base64ResumeFile,
-        fileName: `${Date.now()}.pdf`,
-        isPublished: true
-    })
-    return imagekitFile.url
-    })
+let uploadFileUrl;
+try {
+  uploadFileUrl = await step.run("uploadPDF", async () => {
+    const fileName = `${Date.now()}.pdf`;
+    return await uploadToSupabase(base64ResumeFile, fileName);
+  });
+} catch (err) {
+  console.error("Supabase upload failed. Falling back to ImageKit...", err);
+
+  // Old ImageKit logic
+  uploadFileUrl = await imagekit.upload({
+    file: base64ResumeFile,
+    fileName: `${Date.now()}.pdf`,
+    isPublished: true,
+  }).then(res => res.url);
+}
+
 
     const AIResumeReport = await AIResumeAnalyzerAgent.run(pdfText);
     //@ts-ignore
@@ -418,15 +428,11 @@ export const AIJobMatchAgent = inngest.createFunction(
       userEmail,
     } = event.data;
 
-    const uploadFileUrl = await step.run("uploadResumeFile", async () => {
-      const imagekitFile = await imagekit.upload({
-        file: base64ResumeFile,
-        fileName: `${Date.now()}.pdf`,
-        isPublished: true,
-      });
-
-      return imagekitFile.url;
-    });
+const uploadFileUrl = await step.run("uploadPDF", async () => {
+  const fileName = `${Date.now()}.pdf`;
+  const url = await uploadToSupabase(base64ResumeFile, fileName);
+  return url;
+});
 
 const aiInput = `
 ==== RESUME ====
