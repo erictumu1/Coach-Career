@@ -219,7 +219,7 @@ export function AppSidebar() {
               className="text-xs md:text-sm text-customTealdark font-medium text-center mt-4"
               initial="hidden"
               animate="visible"
-              variants={fadeInUp}
+              variants={fadeInUp as any}
             >
               Ready to land that dream Career..... <br />
               <span className="font-bold text-customTealdark">
@@ -240,7 +240,7 @@ export function AppSidebar() {
                     custom={index}
                     initial="hidden"
                     animate="visible"
-                    variants={fadeInUp}
+                    variants={fadeInUp as any}
                   >
                     <div>
                       <button

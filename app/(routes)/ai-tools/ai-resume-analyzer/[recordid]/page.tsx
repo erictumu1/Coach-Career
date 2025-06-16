@@ -103,7 +103,7 @@ function AIResumeAnalyzer() {
   // }
 
   return (
-    <motion.div initial="hidden" animate="visible" variants={fadeInUp}>
+    <motion.div initial="hidden" animate="visible" variants={fadeInUp as any}>
       <div>
         <div className="grid lg:grid-cols-5 grid-cols-1 gap-y-10">
           {/* Resume Section */}
@@ -112,7 +112,7 @@ function AIResumeAnalyzer() {
             custom={0.1}
             initial="hidden"
             animate="visible"
-            variants={slideInLeft}
+            variants={slideInLeft as any}
           >
             <h2 className="font-bold text-2xl mb-5 text-customTeal">
               Resume Preview
@@ -143,7 +143,7 @@ function AIResumeAnalyzer() {
             custom={0.3}
             initial="hidden"
             animate="visible"
-            variants={slideInRight}
+            variants={slideInRight as any}
           >
             <Report aiReport={aiReport} />
           </motion.div>

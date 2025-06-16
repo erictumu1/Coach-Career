@@ -26,7 +26,7 @@ function Dashboard() {
         initial="hidden"
         animate="visible"
         layout="position"
-        variants={fadeInUp}
+        variants={fadeInUp as any}
       >
         <WelcomeBanner />
       </motion.div>
@@ -36,7 +36,7 @@ function Dashboard() {
         initial="hidden"
         animate="visible"
         layout="position"
-        variants={fadeInUp}
+        variants={fadeInUp as any}
       >
         <AITools />
       </motion.div>
@@ -46,7 +46,7 @@ function Dashboard() {
         initial="hidden"
         animate="visible"
         layout="position"
-        variants={fadeInUp}
+        variants={fadeInUp as any}
       >
         <History />
       </motion.div>

@@ -84,7 +84,7 @@ function RoadmapGeneratorAgent() {
           className="w-fit p-4 rounded-lg border-2 border-customTeal shadow-md transition-transform duration-300 ease-in-out hover:-translate-y-1 hover:shadow-lg"
           initial="hidden"
           animate="visible"
-          variants={slideInLeft}
+          variants={slideInLeft as any}
         >
           <h2 className="font-bold text-2xl col-span-3 text-customTealdark">
             {roadMapDetail?.roadmapTitle}.
@@ -111,7 +111,7 @@ function RoadmapGeneratorAgent() {
           className="md:col-span-2 w-full h-[80vh]"
           initial="hidden"
           animate="visible"
-          variants={slideInRight}
+          variants={slideInRight as any}
         >
           <Roadmapcanvas
             initialNodes={roadMapDetail?.initialNodes}

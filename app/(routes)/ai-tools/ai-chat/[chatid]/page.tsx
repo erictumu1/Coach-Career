@@ -40,7 +40,10 @@ function AiChat() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const fadeInUp = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: (_i: number) => ({
+      opacity: 0,
+      y: 20,
+    }),
     visible: (i: number) => ({
       opacity: 1,
       y: 0,
@@ -157,7 +160,7 @@ function AiChat() {
                 initial="hidden"
                 animate="visible"
                 exit="hidden"
-                variants={fadeInUp}
+                variants={fadeInUp as any}
               >
                 <div key={index}>
                   <div

@@ -174,7 +174,7 @@ function History({ showDates = false }: { showDates?: boolean }) {
                               custom={index}
                               initial="hidden"
                               animate="visible"
-                              variants={fadeInUp}
+                              variants={fadeInUp as any}
                             >
                               <Link
                                 key={index}
@@ -214,7 +214,7 @@ function History({ showDates = false }: { showDates?: boolean }) {
                       custom={index}
                       initial="hidden"
                       animate="visible"
-                      variants={fadeInUp}
+                      variants={fadeInUp as any}
                     >
                       <Link
                         href={`/${history?.AIAgentType?.trim().replace(
