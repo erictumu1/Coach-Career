@@ -10,16 +10,7 @@ import {
 } from "@/components/ui/sidebar";
 import { useHandleToolClick } from "@/hooks/useHandleToolClick";
 import { AnimatePresence, motion } from "framer-motion";
-import {
-  Calendar,
-  ChevronDown,
-  ChevronUp,
-  Home,
-  Inbox,
-  Loader2Icon,
-  UserCircle,
-  Wallet,
-} from "lucide-react";
+import { ChevronDown, ChevronUp, Loader2Icon } from "lucide-react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -27,11 +18,32 @@ import ResumeUploadDialog from "../(routes)/dashboard/_components/ResumeUploadDi
 import RoadmapGeneratorDialog from "../(routes)/dashboard/_components/RoadmapGeneratorDialog";
 
 const items = [
-  { title: "Dashboard", url: "/dashboard", icon: Home },
-  { title: "AI Tools", url: "/ai-tools", icon: Inbox, hasSubmenu: true },
-  { title: "My History", url: "/my-history", icon: Calendar },
-  { title: "Billing", url: "/billing", icon: Wallet },
-  { title: "Profile", url: "/profile", icon: UserCircle },
+  {
+    title: "Dashboard",
+    url: "/dashboard",
+    icon: <img src="/dashboard.png" alt="Dashboard" className="w-5 h-5" />,
+  },
+  {
+    title: "AI Tools",
+    url: "/ai-tools",
+    icon: <img src="/aitools.png" alt="AI Tools" className="w-5 h-5" />,
+    hasSubmenu: true,
+  },
+  {
+    title: "My History",
+    url: "/my-history",
+    icon: <img src="/history.png" alt="My History" className="w-5 h-5" />,
+  },
+  {
+    title: "Billing",
+    url: "/billing",
+    icon: <img src="/billing.png" alt="Billing" className="w-5 h-5" />,
+  },
+  {
+    title: "Profile",
+    url: "/profile",
+    icon: <img src="/profile.png" alt="Profile" className="w-5 h-5" />,
+  },
 ];
 
 const aiToolsList = [
@@ -259,7 +271,7 @@ export function AppSidebar() {
            ${item.url === loadingMainItemUrl ? "opacity-50" : ""}
          `}
                       >
-                        <item.icon className="h-5 w-5" />
+                        <span className="h-5 w-5">{item.icon}</span>
                         <span className="flex-1">
                           {item.url === loadingMainItemUrl ? (
                             <Loader2Icon className="animate-spin mx-auto w-6 h-6 text-customTeallight" />

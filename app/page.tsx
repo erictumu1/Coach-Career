@@ -67,7 +67,7 @@ export default function Home() {
           <div className="flex items-center gap-4 mt-3 sm:mt-0">
             {!user ? (
               <SignInButton mode="modal" signUpForceRedirectUrl="/dashboard">
-                <div className="flex items-center gap-x-2 font-medium text-customTeal hover:text-white">
+                <div className="flex items-center gap-x-2 font-medium text-customTeal hover:text-customTealdark hover:cursor-pointer">
                   Sign In
                 </div>
               </SignInButton>
