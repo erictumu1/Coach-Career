@@ -4,6 +4,7 @@
 
 body {
   font-family: Arial, Helvetica, sans-serif;
+  background-color: hsl(180, 20%, 98%);
 }
 
 @layer base {
@@ -89,21 +90,20 @@ body {
   }
 }
 
-
 @layer base {
   :root {
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-background: 180 35% 95%; /* A cool teal-gray */
+    --sidebar-foreground: 0 0% 100%;
     --sidebar-primary: 240 5.9% 10%;
     --sidebar-primary-foreground: 0 0% 98%;
     --sidebar-accent: 240 4.8% 95.9%;
     --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
+    --sidebar-border: 180 100% 18%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
   .dark {
-    --sidebar-background: 240 5.9% 10%;
+    --sidebar-background: 240 5.9% 10%; /* Deep navy for dark mode */
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
     --sidebar-primary-foreground: 0 0% 100%;
@@ -112,4 +112,61 @@ body {
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
+  /* .custom-sidebar {
+    background-color: hsl(var(--sidebar-background));
+    color: hsl(var(--sidebar-foreground));
+    border-right: 1px solid hsl(var(--sidebar-border)) !important;
+  } */
+}
+.bouncy-underline {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.bouncy-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 100%;
+  height: 3px;
+  background-color: #0e545b;
+  border-radius: 9999px;
+  animation: bounce-and-color 3s infinite ease-in-out;
+}
+
+@keyframes bounce-and-color {
+  0% {
+    transform: translateY(0);
+    background-color: black;
+  }
+  50% {
+    transform: translateY(-6px);
+    background-color: #0e545b;
+  }
+  100% {
+    transform: translateY(0);
+    background-color: black;
+  }
+}
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.thinking-text {
+  animation: blink 1.5s infinite;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.custom-dialog:focus {
+  outline: none;
+  box-shadow: none;
 }
