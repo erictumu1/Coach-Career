@@ -3,6 +3,7 @@ import { currentUser } from "@clerk/nextjs/server";
 import { WebPDFLoader } from "@langchain/community/document_loaders/web/pdf";
 import axios from "axios";
 import { NextRequest, NextResponse } from "next/server";
+import zlib from "zlib";
 
 //Add these two lines to make the app work well with vercel
 export const config = {
@@ -40,14 +41,12 @@ export async function POST(req: NextRequest) {
     const user = await currentUser();
     console.log("Current user:", user?.primaryEmailAddress?.emailAddress);
 
-    // Check file metadata
+    // Log file info
     console.log("Resume file size:", resumeFile.size);
     console.log("Resume file type:", resumeFile.type);
 
     const arrayBuffer = await resumeFile.arrayBuffer();
     console.log("Successfully read arrayBuffer");
-
-    const base64 = Buffer.from(arrayBuffer).toString("base64");
 
     let fullPdfText = "";
     try {
@@ -60,15 +59,25 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Failed to parse PDF" }, { status: 500 });
     }
 
+    // Compress the text using gzip and encode as base64
+    let compressedTextBase64 = "";
+    try {
+      const compressedBuffer = zlib.gzipSync(fullPdfText);
+      compressedTextBase64 = compressedBuffer.toString("base64");
+      console.log("PDF text compressed, original size:", fullPdfText.length, "compressed size:", compressedBuffer.length);
+    } catch (e) {
+      console.error("Compression failed", e);
+      return NextResponse.json({ error: "Compression failed" }, { status: 500 });
+    }
+
+    // Send compressed text to inngest (exclude large base64 file!)
     let resultIds;
     try {
       resultIds = await inngest.send({
         name: "AiResumeAgent",
         data: {
           recordId,
-          resumeFile,
-          base64ResumeFile: base64,
-          pdfText: fullPdfText,
+          compressedPdfText: compressedTextBase64,
           AIAgentType: "/ai-tools/ai-resume-analyzer",
           userEmail: user?.primaryEmailAddress?.emailAddress,
         },

@@ -3,8 +3,9 @@ import { currentUser } from "@clerk/nextjs/server";
 import { WebPDFLoader } from "@langchain/community/document_loaders/web/pdf";
 import axios from "axios";
 import { NextRequest, NextResponse } from "next/server";
+import zlib from "zlib";
 
-//Add these two lines to make the app work well with vercel
+// Add these two lines to make the app work well with vercel
 export const config = {
   api: {
     bodyParser: false,
@@ -32,6 +33,7 @@ function safeJson(obj: any) {
     })
   );
 }
+
 export async function POST(req: NextRequest) {
   const FormData = await req.formData();
   const resumeFile: any = FormData.get("resumeFile");
@@ -48,21 +50,35 @@ export async function POST(req: NextRequest) {
 
   const loader = new WebPDFLoader(resumeFile);
   const docs = await loader.load();
-
   const fullPdfText = docs.map((doc) => doc.pageContent).join("\n");
 
-  console.log("Full Resume Text:", fullPdfText);
+  console.log("Full Resume Text:", fullPdfText.slice(0, 500)); // print a preview
 
-  const arrayBuffer = await resumeFile.arrayBuffer();
-  const base64 = Buffer.from(arrayBuffer).toString("base64");
+  // ✅ Compress extracted PDF text
+  let compressedPdfText;
+  try {
+    const compressedBuffer = zlib.gzipSync(fullPdfText);
+    compressedPdfText = compressedBuffer.toString("base64");
+    console.log(
+      "Compressed PDF text size:",
+      compressedBuffer.length,
+      "Original size:",
+      fullPdfText.length
+    );
+  } catch (error) {
+    console.error("Compression failed:", error);
+    return NextResponse.json(
+      { error: "Failed to compress resume text." },
+      { status: 500 }
+    );
+  }
 
+  // 🚫 No need to send raw file or base64 due to Inngest payload limits
   const resultIds = await inngest.send({
     name: "AIJobMatchAgent",
     data: {
       recordId,
-      resumeFile,
-      base64ResumeFile: base64,
-      pdfText: fullPdfText,
+      compressedPdfText, // ✅ compressed text
       jobDescription,
       AIAgentType: "/ai-tools/ai-job-match-analyzer",
       userEmail: user?.primaryEmailAddress?.emailAddress,
@@ -83,6 +99,7 @@ export async function POST(req: NextRequest) {
     if (runstatus?.data[0]?.status === "Completed") break;
     await new Promise((resolve) => setTimeout(resolve, 500));
   }
+
   const finalOutput = runstatus.data?.[0]?.output;
   console.log("Final Output:", finalOutput);
 
