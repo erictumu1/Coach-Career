@@ -132,7 +132,7 @@ function JobDescriptionDialog({ openDialog, setOpenDialog }: any) {
         onInteractOutside={(e) => {
           e.preventDefault();
         }}
-        className="custom-dialog max-w-[600px] w-[90%] sm:max-w-[90%] md:max-w-[70%] lg:max-w-[600px]"
+        className="custom-dialog max-w-[600px] w-[90%] sm:max-w-[90%] md:max-w-[70%] lg:max-w-[600px] rounded-xl"
       >
         <form onSubmit={handleSubmit}>
           <DialogHeader>

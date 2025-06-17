@@ -7,6 +7,7 @@ import {
   SidebarGroupContent,
   SidebarHeader,
   SidebarMenu,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import { useHandleToolClick } from "@/hooks/useHandleToolClick";
 import { AnimatePresence, motion } from "framer-motion";
@@ -92,6 +93,47 @@ export function AppSidebar() {
   const [loadingMainItemUrl, setLoadingMainItemUrl] = useState<string | null>(
     null
   );
+  const { isMobile, openMobile, setOpenMobile } = useSidebar();
+
+  //This use effect helps us to close the side bar and open it using left to right swipe gestures.
+  useEffect(() => {
+    if (!isMobile) return;
+
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartX = e.touches[0].clientX;
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      touchEndX = e.touches[0].clientX;
+    };
+
+    const handleTouchEnd = () => {
+      const swipeDistance = touchEndX - touchStartX;
+
+      // Swipe right to open (from left edge)
+      if (touchStartX < 30 && swipeDistance > 50 && !openMobile) {
+        setOpenMobile(true);
+      }
+
+      // Swipe left to close (anywhere on screen)
+      if (touchStartX > 30 && swipeDistance < -50 && openMobile) {
+        setOpenMobile(false);
+      }
+    };
+
+    document.addEventListener("touchstart", handleTouchStart);
+    document.addEventListener("touchmove", handleTouchMove);
+    document.addEventListener("touchend", handleTouchEnd);
+
+    return () => {
+      document.removeEventListener("touchstart", handleTouchStart);
+      document.removeEventListener("touchmove", handleTouchMove);
+      document.removeEventListener("touchend", handleTouchEnd);
+    };
+  }, [isMobile, openMobile, setOpenMobile]);
 
   const fadeInUp = {
     hidden: { opacity: 0, y: 20 },
@@ -168,6 +210,7 @@ export function AppSidebar() {
     } else {
       setLoadingMainItemUrl(item.url);
       await router.push(item.url);
+      if (isMobile) setOpenMobile(false);
       setTimeout(() => {
         setLoadingMainItemUrl(null);
       }, 5000);
@@ -176,9 +219,8 @@ export function AppSidebar() {
 
   const handleAIToolClick = async (tool: (typeof aiToolsList)[0]) => {
     setLoadingToolPath(tool.path);
-
     await externalHandleClick(tool, true);
-
+    if (isMobile) setOpenMobile(false);
     setTimeout(() => {
       setLoadingToolPath(null);
     }, 5000);

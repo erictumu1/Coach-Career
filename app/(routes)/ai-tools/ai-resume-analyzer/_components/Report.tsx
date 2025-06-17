@@ -160,7 +160,27 @@ function Report({ aiReport }: any) {
         <Card className="bg-gradient-to-br from-customTealdark via-[#197571] to-customTealdark rounded-xl shadow-xl">
           <CardHeader>
             <CardTitle className="text-2xl md:text-3xl font-bold text-white">
-              Overall Score
+              <div className="md:hidden">
+                {aiReport?.user_name &&
+                aiReport.user_name.toLowerCase() !== "user" ? (
+                  <>
+                    <span className="text-white">
+                      <span className="">
+                        {" "}
+                        Hey <br />
+                        <span className="text-customTeallight">
+                          {aiReport?.user_name}{" "}
+                        </span>
+                        <br />
+                        Here is your Overall Score.
+                      </span>
+                    </span>
+                  </>
+                ) : (
+                  <div>Overall Score</div>
+                )}
+              </div>
+              <div className="hidden md:block">Overall Score</div>
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">

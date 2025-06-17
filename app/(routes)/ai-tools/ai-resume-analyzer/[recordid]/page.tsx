@@ -108,7 +108,7 @@ function AIResumeAnalyzer() {
         <div className="grid lg:grid-cols-5 grid-cols-1 gap-y-10">
           {/* Resume Section */}
           <motion.div
-            className="md:block md:col-span-3"
+            className="hidden md:block md:col-span-3"
             custom={0.1}
             initial="hidden"
             animate="visible"
