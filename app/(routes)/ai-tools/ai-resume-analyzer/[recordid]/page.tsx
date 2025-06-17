@@ -108,7 +108,7 @@ function AIResumeAnalyzer() {
         <div className="grid lg:grid-cols-5 grid-cols-1 gap-y-10">
           {/* Resume Section */}
           <motion.div
-            className="hidden md:block md:col-span-3"
+            className="md:block md:col-span-3"
             custom={0.1}
             initial="hidden"
             animate="visible"
@@ -132,7 +132,7 @@ function AIResumeAnalyzer() {
             <iframe
               src={pdfUrl + "#toolbar=0&navpanes=0&scrollbar=0"}
               width={"90%"}
-              className="min-w-lg border-none h-[500px] lg:h-[850px]"
+              className="h-[385px] min-w-lg border-none md:h-[500px] lg:h-[850px]"
               style={{ border: "none" }}
             />
           </motion.div>

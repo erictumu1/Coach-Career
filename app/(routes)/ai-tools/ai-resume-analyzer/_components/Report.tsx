@@ -159,30 +159,32 @@ function Report({ aiReport }: any) {
       <div className="mt-2 rounded-lg border-customTeal transition-transform duration-300 ease-in-out hover:-translate-y-1">
         <Card className="bg-gradient-to-br from-customTealdark via-[#197571] to-customTealdark rounded-xl shadow-xl">
           <CardHeader>
-            <CardTitle className="text-3xl font-bold text-white">
+            <CardTitle className="text-2xl md:text-3xl font-bold text-white">
               Overall Score
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-              <div className="text-6xl font-bold text-customTeallight flex items-baseline">
+              <div className=" text-5xl md:text-6xl font-bold text-customTeallight flex items-baseline">
                 {score ?? 0}
-                <span className="text-white text-4xl ml-1">/100</span>
+                <span className="text-white text-3xl md:text-4xl ml-1">
+                  /100
+                </span>
               </div>
               <div
-                className="text-[25px] font-bold bg-gradient-to-r from-blue-300 via-purple-300 to-blue-300 bg-clip-text text-transparent
+                className="text-[18px] md:text-[25px] font-bold bg-gradient-to-r from-blue-300 via-purple-300 to-blue-300 bg-clip-text text-transparent
   max-w-full sm:max-w-[60%] break-words sm:ml-auto sm:text-right"
               >
                 {aiReport?.overall_feedback}
               </div>
             </div>
-            <div className="w-full bg-white/30 rounded-full h-4 overflow-hidden">
+            <div className="w-full h-3 bg-white/30 rounded-full md:h-4 overflow-hidden">
               <div
                 className="h-full bg-customTeallight rounded-full transition-all duration-500"
                 style={{ width: `${score ?? 0}%` }}
               />
             </div>
-            <div className="opacity-2 text-[15px] mt-2 sm:mt-0 font-bold bg-gradient-to-r from-blue-100 via-purple-100 to-blue-300 bg-clip-text text-transparent">
+            <div className="opacity-2 sm:text-[10px]  md:text-[15px] mt-2 sm:mt-0 font-bold bg-gradient-to-r from-blue-100 via-purple-100 to-blue-300 bg-clip-text text-transparent">
               {aiReport?.summary_comment}
             </div>
           </CardContent>
