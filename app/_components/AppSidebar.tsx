@@ -94,6 +94,7 @@ export function AppSidebar() {
     null
   );
   const { isMobile, openMobile, setOpenMobile } = useSidebar();
+  const [hassubmenu, sethassubmenu] = useState<boolean>(true);
 
   //This use effect helps us to close the side bar and open it using left to right swipe gestures.
   useEffect(() => {
@@ -119,7 +120,12 @@ export function AppSidebar() {
       }
 
       // Swipe left to close (anywhere on screen)
-      if (touchStartX > 30 && swipeDistance < -50 && openMobile) {
+      if (
+        touchStartX > 30 &&
+        swipeDistance < -50 &&
+        openMobile &&
+        !hassubmenu
+      ) {
         setOpenMobile(false);
       }
     };
@@ -207,10 +213,11 @@ export function AppSidebar() {
   const handleMainItemClick = async (item: (typeof items)[0]) => {
     if (item.hasSubmenu) {
       setIsAIToolsOpen(!isAIToolsOpen);
+      sethassubmenu(true);
     } else {
       setLoadingMainItemUrl(item.url);
       await router.push(item.url);
-      if (isMobile) setOpenMobile(false);
+      if (isMobile && hassubmenu) setOpenMobile(false);
       setTimeout(() => {
         setLoadingMainItemUrl(null);
       }, 5000);
@@ -305,11 +312,7 @@ export function AppSidebar() {
                         disabled={item.url === loadingMainItemUrl}
                         className={`w-full text-left px-4 py-2 flex items-center gap-3 rounded-md transition-all duration-200
            hover:bg-[#0e545b] hover:text-white hover:shadow-md hover:scale-[1.1]
-           ${
-             isActive(item.url)
-               ? "bg-[#0e545b] text-white"
-               : "text-black font-medium"
-           }
+${isActive(item.url) ? "bg-[#0e545b] text-white" : "text-black font-medium"}
            ${item.url === loadingMainItemUrl ? "opacity-50" : ""}
          `}
                       >
