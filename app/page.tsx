@@ -1,13 +1,17 @@
 "use client";
-import CarAnimation from "@/components/CarAnimation";
 import { Button } from "@/components/ui/button";
 import { SignInButton, UserButton, useUser } from "@clerk/nextjs";
 import { motion } from "framer-motion";
 import { Loader2Icon } from "lucide-react";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Script from "next/script";
 import { useState } from "react";
+
+const CarAnimation = dynamic(() => import("@/components/CarAnimation"), {
+  ssr: false,
+});
 
 export default function Home() {
   const { user, isLoaded } = useUser();
