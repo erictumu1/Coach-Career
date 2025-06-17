@@ -33,16 +33,16 @@ export default function JobMatchReport({ matchReport }: any) {
   } = matchReport ?? {};
 
   const getMatchStrengthBorder = (strength: string) => {
-    if (strength.toLowerCase() === "weak") return "border-red-500";
+    if (strength.toLowerCase() === "low") return "border-red-500";
     if (strength.toLowerCase() === "moderate") return "border-amber-600";
-    if (strength.toLowerCase() === "strong") return "border-emerald-500";
+    if (strength.toLowerCase() === "high") return "border-emerald-500";
     return "";
   };
 
   const getMatchStrengthTextColor = (strength: string) => {
-    if (strength.toLowerCase() === "weak") return "text-red-500";
+    if (strength.toLowerCase() === "low") return "text-red-500";
     if (strength.toLowerCase() === "moderate") return "text-amber-600";
-    if (strength.toLowerCase() === "strong") return "text-emerald-500";
+    if (strength.toLowerCase() === "high") return "text-emerald-500";
     return "";
   };
 

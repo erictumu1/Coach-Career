@@ -13,20 +13,6 @@ function JobMatchAnalyzer() {
   const [aiReport, setAIReport] = useState(null);
   const year = new Date().getFullYear();
 
-  const loaderVariants = {
-    hidden: { opacity: 0, x: "-100vw" },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: { duration: 0.5, ease: "easeOut" },
-    },
-    exit: {
-      opacity: 0,
-      x: "100vw",
-      transition: { duration: 0.5, ease: "easeIn" },
-    },
-  };
-
   useEffect(() => {
     console.log("useEffect triggered with recordid:", jobmatchid);
     if (!jobmatchid) return;

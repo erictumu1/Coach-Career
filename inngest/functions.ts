@@ -190,7 +190,7 @@ Return a JSON object like the one below:
     },
     {
       "requirement": "Google Analytics proficiency",
-      "status": "not_matched",
+      "status": "not matched",
       "evidence": "No mention of analytics tools or data platforms."
     },
     {
@@ -238,6 +238,7 @@ Give a score out of 100 based on how well the resume aligns with the job descrip
 Use the number and severity of mismatches to justify the score. Be objective.
 
 IMPORTANT:
+- Search for the keywords in the job description and if a user has some of them for example; GitLab and Git, then that should count towards the requirements. another example is if they for reinstance have worked with AI, any job that asks for any AI it should count towards the strenghts.
 - Respond ONLY with the JSON object, no extra text or markdown formatting.
 - Only show the project_alignment_analysis if it is relevant, for example if i's a tech role or maybe a relevant engineering role. Otherwise show project alignment as null.
 - Always extract the user name from the resume (top line usually). If unclear, default to "User".
@@ -247,7 +248,7 @@ IMPORTANT:
 - If the resume is strong, provide praise and polish tips.
 
 Use the job_requirements_coverage section to influence your score:
-- Count how many are "matched", "partially_matched", or "not_matched".
+- Count how many are "matched", "partially matched", or "not matched".
 - Use this ratio to help guide the match score.
 
 Give extra weight to core requirements in the job description (e.g. mandatory certifications, tools, or years of experience). A resume missing these should be penalized more than one missing a soft skill.
