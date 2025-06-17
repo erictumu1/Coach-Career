@@ -1,4 +1,5 @@
 "use client";
+import CarAnimation from "@/components/CarAnimation";
 import { Button } from "@/components/ui/button";
 import { SignInButton, UserButton, useUser } from "@clerk/nextjs";
 import { motion } from "framer-motion";
@@ -189,17 +190,17 @@ export default function Home() {
           </motion.div>
           <motion.div
             className="md:hidden relative"
-            initial={{ opacity: 0 }}
-            animate={{
-              opacity: 1,
-              y: [0, -10, 0],
-            }}
-            transition={{
-              opacity: { duration: 1, delay: 1 },
-              y: { duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 },
-            }}
+            //   initial={{ opacity: 0 }}
+            //   animate={{
+            //     opacity: 1,
+            //     y: [0, -10, 0],
+            //   }}
+            //   transition={{
+            //     opacity: { duration: 1, delay: 1 },
+            //     y: { duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 },
+            //   }}
           >
-            <Image src="/logo.png" alt="Bul" width={350} height={350} />
+            <CarAnimation />
           </motion.div>
         </div>
       </main>
