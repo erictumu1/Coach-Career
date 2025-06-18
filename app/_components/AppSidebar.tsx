@@ -265,7 +265,7 @@ export function AppSidebar() {
                   alt="logo left"
                   width={50}
                   height={20}
-                  className="w-20 md:w-40 lg:w-48"
+                  className="w-12 md:w-40 lg:w-48"
                 />
               </motion.div>
               <Image
@@ -273,7 +273,7 @@ export function AppSidebar() {
                 alt="logo right"
                 width={120}
                 height={40}
-                className="w-32 md:w-40 lg:w-48"
+                className="w-21 md:w-40 lg:w-48"
               />
             </div>
             <motion.h2
