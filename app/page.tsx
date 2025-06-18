@@ -89,7 +89,7 @@ export default function Home() {
 
       <main className="flex-grow">
         {/* Use this if you are going ot use the spline <div className="mt-10 max-w-6xl mx-auto px-4 -py-10 md:-mt-10 flex flex-col md:flex-row items-center justify-between gap-16"> */}
-        <div className="mt-7 max-w-6xl mx-auto px-4 py-8 md:mt-9 flex flex-col md:flex-row items-center justify-between gap-20">
+        <div className="mt-0 max-w-6xl mx-auto px-4 py-8 md:mt-9 flex flex-col md:flex-row items-center justify-between gap-20">
           <div className="flex-1">
             <motion.h1
               className="font-bold text-5xl md:text-7xl text-customTeal"
