@@ -62,6 +62,7 @@ export default function Home() {
                   alt="logo left"
                   width={60}
                   height={20}
+                  className="h-[60px] w-[45px] md:h-[75px] md:w-[60px]"
                 />
               </motion.div>
               <Image
@@ -69,6 +70,7 @@ export default function Home() {
                 alt="logo right"
                 width={110}
                 height={40}
+                className="h-[64px] w-[88px] md:h-[75px] md:w-[105px]"
               />
             </div>
           </div>
