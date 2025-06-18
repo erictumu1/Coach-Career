@@ -13,6 +13,10 @@ const CarAnimation = dynamic(() => import("@/components/CarAnimation"), {
   ssr: false,
 });
 
+const HiAnimation = dynamic(() => import("@/components/HiAnimation"), {
+  ssr: false,
+});
+
 export default function Home() {
   const { user, isLoaded } = useUser();
   const router = useRouter();
@@ -84,7 +88,8 @@ export default function Home() {
       </header>
 
       <main className="flex-grow">
-        <div className="mt-10 max-w-6xl mx-auto px-4 -py-10 md:-mt-10 flex flex-col md:flex-row items-center justify-between gap-16">
+        {/* Use this if you are going ot use the spline <div className="mt-10 max-w-6xl mx-auto px-4 -py-10 md:-mt-10 flex flex-col md:flex-row items-center justify-between gap-16"> */}
+        <div className="mt-7 max-w-6xl mx-auto px-4 py-8 md:mt-9 flex flex-col md:flex-row items-center justify-between gap-20">
           <div className="flex-1">
             <motion.h1
               className="font-bold text-5xl md:text-7xl text-customTeal"
@@ -157,7 +162,8 @@ export default function Home() {
             strategy="afterInteractive"
           />
           <motion.div
-            className="hidden md:flex flex-1 h-[400px] md:h-[800px] w-[800px] -mt-20 relative"
+            // use this if you are going to use the spline className="hidden md:flex flex-1 h-[400px] md:h-[800px] w-[800px] -mt-20 relative"
+            className="hidden md:flex flex-1 relative"
             initial={{ opacity: 0 }}
             animate={{
               opacity: 1,
@@ -168,8 +174,9 @@ export default function Home() {
               y: { duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 },
             }}
           >
+            <HiAnimation />
             {/* @ts-ignore */}
-            <spline-viewer url="https://prod.spline.design/as3B8PtcUGR8sITK/scene.splinecode" />
+            {/* <spline-viewer url="https://prod.spline.design/as3B8PtcUGR8sITK/scene.splinecode" />
             <Image
               src="/blankwhite.png"
               alt="Bul"
@@ -190,7 +197,7 @@ export default function Home() {
               width={150}
               height={150}
               className="absolute z-10 top-[670px] left-[180px]"
-            />
+            /> */}
           </motion.div>
           <motion.div
             className="md:hidden relative"
