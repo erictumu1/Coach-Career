@@ -46,6 +46,13 @@ function AppHeader() {
             className="w-10 h-auto"
           />
         </motion.div>
+        <Image
+          src="/logo_new_right.png"
+          alt="Coach Career Logo"
+          width={160}
+          height={60}
+          className="w-[100px] h-auto"
+        />
       </div>
     </div>
   );

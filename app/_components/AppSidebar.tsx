@@ -265,7 +265,7 @@ export function AppSidebar() {
                   alt="logo left"
                   width={50}
                   height={20}
-                  className="w-12 md:w-40 lg:w-48"
+                  className="w-16 md:w-40 lg:w-48"
                 />
               </motion.div>
               <Image
@@ -273,11 +273,11 @@ export function AppSidebar() {
                 alt="logo right"
                 width={120}
                 height={40}
-                className="w-21 md:w-40 lg:w-48"
+                className="w-21 md:w-40 lg:w-48 hidden md:block"
               />
             </div>
             <motion.h2
-              className="text-xs md:text-sm text-customTealdark font-medium text-center mt-4"
+              className="text-xs hidden md:block md:text-sm text-customTealdark font-medium text-center mt-4"
               initial="hidden"
               animate="visible"
               variants={fadeInUp as any}
