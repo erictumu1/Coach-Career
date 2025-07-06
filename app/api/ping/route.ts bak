@@ -5,6 +5,5 @@ export async function GET() {
 }
 
 export async function HEAD() {
-  // Return an empty 200 response for HEAD requests
   return new Response(null, { status: 200 });
 }
