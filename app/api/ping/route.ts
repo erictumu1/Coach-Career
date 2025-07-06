@@ -1,9 +1,15 @@
+import { supabase } from "@/lib/supabase";
 import { NextResponse } from "next/server";
 
 export async function GET() {
-  return NextResponse.json({ status: "ok", timestamp: Date.now() });
-}
+  const { error } = await supabase
+    .from("heartbeat")
+    .select("*")
+    .limit(1);
 
-export async function HEAD() {
-  return new Response(null, { status: 200 });
+  if (error) {
+    return NextResponse.json({ status: "error", message: error.message }, { status: 500 });
+  }
+
+  return NextResponse.json({ status: "ok", timestamp: Date.now() });
 }
